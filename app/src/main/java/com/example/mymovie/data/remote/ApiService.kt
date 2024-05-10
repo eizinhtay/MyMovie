@@ -1,0 +1,25 @@
+package com.example.mymovie.data.remote
+
+import com.example.mymovie.data.models.movie.MoviesResponse
+import com.example.mymovie.data.models.movieDetail.MovieDetails
+import com.example.mymovie.utils.GET_MOVIES
+import com.example.mymovie.utils.GET_MOVIE_DETAIL
+import com.example.mymovie.utils.GET_MOVIE_SEARCH
+
+import io.reactivex.rxjava3.core.Observable
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
+
+interface ApiService {
+
+    @GET(GET_MOVIES)
+    fun getMovies(): Observable<MoviesResponse>
+
+    @GET(GET_MOVIE_DETAIL)
+    fun getMovieDetails(@Path("movie_id") movieId: Int): Observable<MovieDetails>
+
+    @GET(GET_MOVIE_SEARCH)
+    fun getMovieSearch(@Query("query") query: String): Observable<MoviesResponse>
+
+}
