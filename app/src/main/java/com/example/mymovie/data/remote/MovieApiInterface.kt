@@ -11,7 +11,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface ApiService {
+interface MovieApiInterface {
 
     @GET(GET_MOVIES)
     fun getMovies(): Observable<MoviesResponse>

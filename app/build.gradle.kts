@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.kotlinKapt)
+
 }
 
 android {
@@ -65,6 +67,11 @@ dependencies {
     implementation(libs.rxandroid)
     implementation(libs.rxjava)
 
+    //dependencyInjection
+    implementation(libs.hilt.android)
+    kapt (libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.work)
+    kapt  (libs.androidx.hilt.compiler)
 
 
 
