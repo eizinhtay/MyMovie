@@ -58,8 +58,13 @@ dependencies {
     implementation (libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.converter.scalars)
-    implementation(libs.adapter.rxjava3)
     implementation(libs.logging.interceptor)
+
+    //rxjava
+    implementation(libs.adapter.rxjava3)
+    implementation(libs.rxandroid)
+    implementation(libs.rxjava)
+
 
 
 
