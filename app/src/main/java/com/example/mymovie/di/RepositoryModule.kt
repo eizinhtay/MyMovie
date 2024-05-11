@@ -1,5 +1,6 @@
 package com.example.mymovie.di
 
+import com.example.mymovie.data.db.MoviesDao
 import com.example.mymovie.data.repository.movie.MoviesRepository
 import dagger.Module
 import dagger.Provides
@@ -12,7 +13,7 @@ import javax.inject.Singleton
 object RepositoryModule {
     @Provides
     @Singleton
-    fun provideMovieRepository(apiService: MovieApiService): MoviesRepository {
-        return MoviesRepository(apiService)
+    fun provideMovieRepository(apiService: MovieApiService,moviesDao: MoviesDao): MoviesRepository {
+        return MoviesRepository(apiService,moviesDao)
     }
 }
