@@ -25,8 +25,6 @@ class MoviesViewModel @Inject constructor(private val repository: MoviesReposito
             onFailure = {
 
             }
-
-
         )
     }
 

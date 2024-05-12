@@ -80,6 +80,14 @@ dependencies {
     kapt (libs.androidx.room.compiler)
 
 
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.androidx.constraintlayout.compose)
+    implementation (libs.glide)
+
+
+
+
+
 
 
 

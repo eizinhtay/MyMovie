@@ -1,37 +1,38 @@
-package com.example.mymovie
+package com.example.mymovie.ui.movie
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.example.mymovie.databinding.FragmentFirstBinding
-import com.example.mymovie.ui.movie.MoviesViewModel
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.mymovie.databinding.FragmentMovieBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 @AndroidEntryPoint
-class FirstFragment : Fragment() {
+class MoviesFragment : Fragment() {
 
-    private var _binding: FragmentFirstBinding? = null
+    private var _binding: FragmentMovieBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
 
     private val moviesViewModel:MoviesViewModel by viewModels()
+    private lateinit var mAdapter: MoviesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentFirstBinding.inflate(inflater, container, false)
+        _binding = FragmentMovieBinding.inflate(inflater, container, false)
         moviesViewModel.getMovies()
+        setUpRecyclerview()
         return binding.root
 
     }
@@ -39,9 +40,15 @@ class FirstFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
+
+    }
+
+    private fun setUpRecyclerview() {
+        mAdapter = MoviesAdapter()
+        binding.rvMovies.layoutManager =
+            GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false)
+        binding.rvMovies.adapter = mAdapter
+        mAdapter.setItems(moviesViewModel.getLocalMovies().toMutableList())
     }
 
     override fun onDestroyView() {
