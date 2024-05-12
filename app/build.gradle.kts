@@ -57,6 +57,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.material.icons.extended)
+
 
     //Gson
     implementation(libs.gson)
@@ -86,15 +88,20 @@ dependencies {
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
+    implementation (libs.androidx.room.paging)
 
 
 
-    implementation(libs.androidx.material.icons.extended)
+
     //glide
     implementation(libs.glide)
 
     // Youtube Player
     implementation (libs.core)
+
+    //--Paging3
+    implementation (libs.androidx.paging.runtime)
+
 
 
 

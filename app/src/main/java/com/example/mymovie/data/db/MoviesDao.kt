@@ -1,5 +1,6 @@
 package com.example.mymovie.data.db
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -24,5 +25,15 @@ interface MoviesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addMovies(movies: List<Movie>)
 
+
+    @Query("SELECT * FROM movies ORDER BY id")
+    fun movies(): PagingSource<Int, Movie>
+
+    @Query("SELECT * FROM movies WHERE title LIKE '%' || :query || '%'")
+    fun searchLocalMovies(query: String): PagingSource<Int, Movie>
+
+
+    @Query("DELETE FROM movies")
+     fun clearAll()
 
 }

@@ -9,6 +9,7 @@ import com.example.mymovie.utils.GET_MOVIE_SEARCH
 import com.example.mymovie.utils.GET_MOVIE_VIDEOS
 
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -17,12 +18,14 @@ interface MovieApiInterface {
 
     @GET(GET_MOVIES)
     fun getMovies(@Query("page") page: Int): Observable<MoviesResponse>
+    @GET(GET_MOVIES)
+    fun getMoviess(@Query("page") page: Int, @Query("query") query: String,): Single<MoviesResponse>
 
     @GET(GET_MOVIE_DETAIL)
     fun getMovieDetails(@Path("movie_id") movieId: Int): Observable<MovieDetails>
 
     @GET(GET_MOVIE_SEARCH)
-    fun getMovieSearch(@Query("query") query: String): Observable<MoviesResponse>
+    fun getMovieSearch(@Query("query") query: String,@Query("page") page: Int): Single<MoviesResponse>
 
     @GET(GET_MOVIE_VIDEOS)
     fun getMovieVideos(@Path("movie_id") movieId: Int): Observable<MovieVideoResponse>

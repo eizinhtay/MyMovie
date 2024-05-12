@@ -1,6 +1,7 @@
 package com.example.mymovie.ui.movie
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mymovie.databinding.FragmentMovieBinding
 import com.example.mymovie.utils.NetworkStateLiveData
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -26,7 +30,7 @@ class MoviesFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val moviesViewModel:MoviesViewModel by viewModels()
-    private lateinit var mAdapter: MoviesAdapter
+    private lateinit var mAdapter: MovieRecyclerAdapter
     private lateinit var networkStateLiveData: NetworkStateLiveData
 
     override fun onCreateView(
@@ -36,7 +40,6 @@ class MoviesFragment : Fragment() {
 
         _binding = FragmentMovieBinding.inflate(inflater, container, false)
         setUpNetwork()
-        loadMovie()
         setUpRecyclerview()
         listeners()
         return binding.root
@@ -54,6 +57,10 @@ class MoviesFragment : Fragment() {
         binding.searchMovie.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
+                if (query != null) {
+                    filterMovies(query)
+                }
+
                 return false
             }
 
@@ -65,6 +72,13 @@ class MoviesFragment : Fragment() {
             }
         })
 
+
+        binding.searchMovie.setOnCloseListener {
+            loadMovies()
+            false
+        }
+
+
     }
 
 
@@ -72,20 +86,31 @@ class MoviesFragment : Fragment() {
         networkStateLiveData.observe(viewLifecycleOwner) { isConnected ->
             if (isConnected) {
                 // Network is available
-                moviesViewModel.filterMovies(newText).toMutableList().let { mAdapter.updateMovies(it) }
+                moviesViewModel.searchMovies(newText)
+
+                moviesViewModel.moviePagingList.observe(viewLifecycleOwner){
+                    CoroutineScope(Dispatchers.Main).launch {
+                        mAdapter.submitData(viewLifecycleOwner.lifecycle,it)
+
+                    }
+                }
 
             } else {
                 // Network is not available
-                moviesViewModel.filterLocalMovies(newText).toMutableList().let { mAdapter.updateMovies(it) }
+                moviesViewModel.searchMoviesLocalPaging(newText)
+
+                moviesViewModel.movieLocalPagingList.observe(viewLifecycleOwner){
+                    CoroutineScope(Dispatchers.Main).launch {
+                        mAdapter.submitData(viewLifecycleOwner.lifecycle,it)
+                    }
+                }
+
 
             }
         }
 
     }
 
-    private fun loadMovie() {
-        moviesViewModel.getMovies()
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -94,7 +119,7 @@ class MoviesFragment : Fragment() {
     }
 
     private fun setUpRecyclerview() {
-        mAdapter = MoviesAdapter(object :MoviesDelegate{
+        mAdapter = MovieRecyclerAdapter(requireContext(),object :MoviesDelegate{
             override fun onMovieItemClick(movieId: Int) {
                 findNavController().navigate(MoviesFragmentDirections.actionMovieFragmentToMovieDetailFragment(movieId))
             }
@@ -104,22 +129,41 @@ class MoviesFragment : Fragment() {
             GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false)
         binding.rvMovies.adapter = mAdapter
 
+
+        loadMovies()
+
+
+
+    }
+
+    private fun loadMovies() {
         networkStateLiveData.observe(viewLifecycleOwner) { isConnected ->
             if (isConnected) {
                 // Network is available
-                moviesViewModel.movieList.observe(viewLifecycleOwner){
-                    mAdapter.setItems(it)
+                moviesViewModel.getAllMovies(query="")
 
+                moviesViewModel.moviePagingList.observe(viewLifecycleOwner){
+                    CoroutineScope(Dispatchers.Main).launch {
+                        mAdapter.submitData(viewLifecycleOwner.lifecycle,it)
+                    }
                 }
             } else {
                 // Network is not available
-                val localMovies= moviesViewModel.getLocalMovies()
-                mAdapter.setItems(localMovies.toMutableList())
+                /* val localMovies= moviesViewModel.getLocalMovies()
+                  mAdapter.setItems(localMovies.toMutableList())*/
+
+                moviesViewModel.getMoviesLocalPaging()
+                moviesViewModel.movieLocalPagingList.observe(viewLifecycleOwner){
+                    CoroutineScope(Dispatchers.Main).launch {
+                        mAdapter.submitData(viewLifecycleOwner.lifecycle,it)
+
+                    }
+                }
+                Log.d("MoviesViewModel","${moviesViewModel.getLocalMovies().size}")
 
 
             }
         }
-
     }
 
     override fun onDestroyView() {
