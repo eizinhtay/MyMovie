@@ -1,41 +1,41 @@
-package com.example.mymovie.ui.movieDetail
+package com.example.mymovie.ui.movieVideo
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.mymovie.data.models.movieDetail.MovieDetails
+import com.example.mymovie.data.models.movieVideo.MovieVideoResponse
 import com.example.mymovie.data.repository.movieDetail.MovieDetailRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieDetailViewModel @Inject constructor(private val repository: MovieDetailRepository) :
+class MovieVideoViewModel @Inject constructor(private val repository: MovieDetailRepository) :
     ViewModel() {
 
     private var compositeDisposable = CompositeDisposable()
 
-    private val _movieDetails = MutableLiveData<MovieDetails>()
-    val movieDetails: LiveData<MovieDetails> = _movieDetails
+    private val _movieVideoError = MutableLiveData<String>()
+    val movieVideoError: LiveData<String> = _movieVideoError
 
 
-    private val _movieError = MutableLiveData<String>()
-    val movieError: LiveData<String> = _movieError
+    private val _movieVideos = MutableLiveData<MovieVideoResponse>()
+    val movieVideos: LiveData<MovieVideoResponse> = _movieVideos
 
 
-    fun getMovieDetail(
+    fun getMovieVideos(
         movieId: Int,
 
         ) {
-        repository.getMovieDetail(
+        repository.getMovieVideos(
             movieId,
             compositeDisposable,
             onSuccess = {
-                _movieDetails.value = it
+                _movieVideos.value = it
 
             },
             onFailure = {
-                _movieError.value = it
+                _movieVideoError.value = it
             }
         )
     }

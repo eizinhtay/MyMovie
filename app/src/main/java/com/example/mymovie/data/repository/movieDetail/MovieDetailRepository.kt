@@ -1,6 +1,7 @@
 package com.example.mymovie.data.repository.movieDetail
 
 import com.example.mymovie.data.models.movieDetail.MovieDetails
+import com.example.mymovie.data.models.movieVideo.MovieVideoResponse
 import com.example.mymovie.di.MovieApiService
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -21,6 +22,28 @@ class MovieDetailRepository @Inject constructor(
         onSuccess: (MovieDetails) -> Unit
     ) {
         movieApiService.apiService?.getMovieDetails(movieId)
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({
+
+                onSuccess(it)
+
+            }, {
+                onFailure(it.localizedMessage ?: "")
+            })?.let {
+                compositeDisposable.add(
+                    it
+                )
+            }
+    }
+
+    fun getMovieVideos(
+        movieId:Int,
+        compositeDisposable: CompositeDisposable,
+        onFailure: (String) -> Unit,
+        onSuccess: (MovieVideoResponse) -> Unit
+    ) {
+        movieApiService.apiService?.getMovieVideos(movieId)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe({

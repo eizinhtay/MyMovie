@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.mymovie.data.models.movieDetail.Genre
 import com.example.mymovie.data.models.movieDetail.MovieDetails
@@ -47,6 +48,13 @@ class MovieDetailFragment : Fragment() {
             fragmentManager?.popBackStack()
         }
 
+        binding.btnPlayTrailer.setOnClickListener {
+            findNavController().navigate(MovieDetailFragmentDirections.actionMovieDetailFragmentToMovieVideoFragment(movieId)
+            )
+        }
+
+
+
     }
 
     private fun loadMovieDetail() {
@@ -58,17 +66,23 @@ class MovieDetailFragment : Fragment() {
     }
 
     private fun setUI() {
+
+
         movieDetailViewModel.movieDetails.observe(viewLifecycleOwner){
             if (it!=null){
                 binding.bindData(it)
             }
         }
 
+
         movieDetailViewModel.movieError.observe(viewLifecycleOwner){
             showToastMessage(requireContext(),it)
         }
 
     }
+
+
+
     private fun FragmentMovieDetailBinding.bindData(movie: MovieDetails?) {
         movie?.apply {
             Glide.with(requireContext()).load("$IMAGE_BASE_URL${posterPath}")
@@ -125,4 +139,6 @@ class MovieDetailFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

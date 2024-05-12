@@ -26,6 +26,17 @@
         <argument
             android:name="movieId"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_movieDetailFragment_to_movieVideoFragment"
+            app:destination="@id/movieVideoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieVideoFragment"
+        android:name="com.example.mymovie.ui.movieVideo.MovieVideoFragment"
+        android:label="fragment_movie_video"
+        tools:layout="@layout/fragment_movie_video" >
+        <argument android:name="movieId"
+                  app:argType="integer"/>
     </fragment>
 
 </navigation>
