@@ -27,7 +27,6 @@ class MoviesRepository @Inject constructor(
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe({
-
                 onSuccess(it)
 
             }, {

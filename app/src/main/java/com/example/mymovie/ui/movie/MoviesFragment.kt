@@ -69,13 +69,22 @@ class MoviesFragment : Fragment() {
 
 
     private fun filterMovies(newText: String) {
-        moviesViewModel.filterLocalMovies(newText).toMutableList().let { mAdapter.updateMovies(it) }
+        networkStateLiveData.observe(viewLifecycleOwner) { isConnected ->
+            if (isConnected) {
+                // Network is available
+                moviesViewModel.filterMovies(newText).toMutableList().let { mAdapter.updateMovies(it) }
+
+            } else {
+                // Network is not available
+                moviesViewModel.filterLocalMovies(newText).toMutableList().let { mAdapter.updateMovies(it) }
+
+            }
+        }
 
     }
 
     private fun loadMovie() {
         moviesViewModel.getMovies()
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -51,6 +51,16 @@ class MoviesViewModel @Inject constructor(private val repository: MoviesReposito
         return filteredList
     }
 
+    fun filterMovies(query: String?): MutableList<Movie> {
+        val filteredList = mutableListOf<Movie>()
+        _movieList.value?.forEach {
+            if (it.title?.contains(query.orEmpty(), ignoreCase = true) == true) {
+                filteredList.add(it)
+            }
+        }
+        return filteredList
+    }
+
     override fun onCleared() {
         compositeDisposable.dispose()
         super.onCleared()

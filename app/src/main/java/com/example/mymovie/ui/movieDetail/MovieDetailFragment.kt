@@ -35,13 +35,21 @@ class MovieDetailFragment : Fragment() {
     ): View {
 
         _binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
-        callMovieDetailApi()
+        loadMovieDetail()
         setUI()
+        listener()
         return binding.root
 
     }
 
-    private fun callMovieDetailApi() {
+    private fun listener() {
+        binding.btnBack.setOnClickListener {
+            fragmentManager?.popBackStack()
+        }
+
+    }
+
+    private fun loadMovieDetail() {
         val bundle = arguments
 
         val args = bundle?.let { MovieDetailFragmentArgs.fromBundle(it) }

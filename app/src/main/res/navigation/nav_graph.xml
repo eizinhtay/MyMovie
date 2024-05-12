@@ -12,7 +12,11 @@
 
         <action
             android:id="@+id/action_movieFragment_to_movieDetailFragment"
-            app:destination="@id/movieDetailFragment" />
+            app:destination="@id/movieDetailFragment"
+            app:enterAnim="@anim/slide_out"
+            app:exitAnim="@anim/fade_in"
+            app:popEnterAnim="@anim/slide_out"
+            app:popExitAnim="@anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailFragment"
