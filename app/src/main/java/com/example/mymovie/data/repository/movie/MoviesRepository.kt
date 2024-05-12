@@ -18,11 +18,12 @@ class MoviesRepository @Inject constructor(
      * Get Movies Api call
      */
     fun getMovies(
+        page:Int,
         compositeDisposable: CompositeDisposable,
         onFailure: (String) -> Unit,
         onSuccess: (MoviesResponse) -> Unit
     ) {
-        movieApiService.apiService?.getMovies()
+        movieApiService.apiService?.getMovies(page)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe({

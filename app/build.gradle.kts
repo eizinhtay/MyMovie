@@ -68,6 +68,9 @@ dependencies {
     implementation(libs.adapter.rxjava3)
     implementation(libs.rxandroid)
     implementation(libs.rxjava)
+    implementation(libs.androidx.paging.rxjava3)
+
+
 
     //dependencyInjection
     implementation(libs.hilt.android)
@@ -81,9 +84,16 @@ dependencies {
     kapt(libs.androidx.room.compiler)
 
 
+
     implementation(libs.androidx.material.icons.extended)
-    implementation(libs.androidx.constraintlayout.compose)
+    //glide
     implementation(libs.glide)
+
+    // Youtube Player
+    implementation (libs.core)
+
+
+
 
 
 }

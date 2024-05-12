@@ -14,7 +14,7 @@ import retrofit2.http.Query
 interface MovieApiInterface {
 
     @GET(GET_MOVIES)
-    fun getMovies(): Observable<MoviesResponse>
+    fun getMovies(@Query("page") page: Int): Observable<MoviesResponse>
 
     @GET(GET_MOVIE_DETAIL)
     fun getMovieDetails(@Path("movie_id") movieId: Int): Observable<MovieDetails>

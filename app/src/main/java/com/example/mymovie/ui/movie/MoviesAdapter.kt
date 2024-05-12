@@ -41,7 +41,7 @@ class MoviesAdapter(private val moviesDelegate: MoviesDelegate) :
 
         if (items != null) {
             itemList = items
-            notifyItemRangeInserted(0, itemList.size)
+            notifyDataSetChanged()
         }
     }
 

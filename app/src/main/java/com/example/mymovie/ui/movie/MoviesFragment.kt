@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mymovie.databinding.FragmentMovieBinding
+import com.example.mymovie.utils.NetworkStateLiveData
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -26,6 +27,7 @@ class MoviesFragment : Fragment() {
 
     private val moviesViewModel:MoviesViewModel by viewModels()
     private lateinit var mAdapter: MoviesAdapter
+    private lateinit var networkStateLiveData: NetworkStateLiveData
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +35,16 @@ class MoviesFragment : Fragment() {
     ): View {
 
         _binding = FragmentMovieBinding.inflate(inflater, container, false)
+        setUpNetwork()
         loadMovie()
         setUpRecyclerview()
         listeners()
         return binding.root
+
+    }
+
+    private fun setUpNetwork() {
+        networkStateLiveData = NetworkStateLiveData(requireContext())
 
     }
 
@@ -67,6 +75,7 @@ class MoviesFragment : Fragment() {
 
     private fun loadMovie() {
         moviesViewModel.getMovies()
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,7 +94,23 @@ class MoviesFragment : Fragment() {
         binding.rvMovies.layoutManager =
             GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false)
         binding.rvMovies.adapter = mAdapter
-        mAdapter.setItems(moviesViewModel.getLocalMovies().toMutableList())
+
+        networkStateLiveData.observe(viewLifecycleOwner) { isConnected ->
+            if (isConnected) {
+                // Network is available
+                moviesViewModel.movieList.observe(viewLifecycleOwner){
+                    mAdapter.setItems(it)
+
+                }
+            } else {
+                // Network is not available
+                val localMovies= moviesViewModel.getLocalMovies()
+                mAdapter.setItems(localMovies.toMutableList())
+
+
+            }
+        }
+
     }
 
     override fun onDestroyView() {

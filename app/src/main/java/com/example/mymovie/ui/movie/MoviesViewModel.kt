@@ -16,16 +16,20 @@ class MoviesViewModel @Inject constructor(private val repository: MoviesReposito
 
     private var compositeDisposable = CompositeDisposable()
 
-    private val _movieList = MutableLiveData<List<Movie>>()
-    val movieList: LiveData<List<Movie>> = _movieList
+    private val _movieList = MutableLiveData<MutableList<Movie>>()
+    val movieList: LiveData<MutableList<Movie>> = _movieList
 
     fun getMovies(
     ) {
         repository.getMovies(
-            compositeDisposable,
+            page = 1,
+            compositeDisposable=compositeDisposable,
             onSuccess = {
+                _movieList.value = it.movies
                 repository.addMovies(it.movies)
-                Log.d("MoviesViewModel", "response::${repository.getMoviesFromDb()}")
+                Log.d("MoviesViewModel", "size::${it.movies.size}")
+
+                Log.d("MoviesViewModel", "response::${repository.getMoviesFromDb().size}")
             },
             onFailure = {
 
