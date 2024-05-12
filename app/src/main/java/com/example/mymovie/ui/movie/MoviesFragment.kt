@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -32,10 +33,40 @@ class MoviesFragment : Fragment() {
     ): View {
 
         _binding = FragmentMovieBinding.inflate(inflater, container, false)
-        moviesViewModel.getMovies()
+        loadMovie()
         setUpRecyclerview()
+        listeners()
         return binding.root
 
+    }
+
+    private fun listeners() {
+
+        // Search functionality
+        binding.searchMovie.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    filterMovies(newText)
+                }
+                return true
+            }
+        })
+
+    }
+
+
+    private fun filterMovies(newText: String) {
+        moviesViewModel.filterLocalMovies(newText).toMutableList().let { mAdapter.updateMovies(it) }
+
+    }
+
+    private fun loadMovie() {
+        moviesViewModel.getMovies()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -56,6 +56,11 @@ class MoviesAdapter(private val moviesDelegate: MoviesDelegate) :
     override fun getItemViewType(position: Int): Int {
         return position
     }
+
+    fun updateMovies(updatedMovies: MutableList<Movie>) {
+        itemList = updatedMovies
+        notifyDataSetChanged()
+    }
 }
 
 

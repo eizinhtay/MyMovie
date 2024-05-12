@@ -25,5 +25,7 @@
     <string name="lbl_about_film">About Film</string>
     <string name="lbl_storyline">StoryLine</string>
     <string name="lbl_production">Production:</string>
+    <string name="what_would_you_live_to_watch">What would you</string>
+    <string name="like_to_watch">like to watch?</string>
 
 </resources>
