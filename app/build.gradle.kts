@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.kotlinKapt)
     alias(libs.plugins.dagger)
+    alias(libs.plugins.navigationSafeArgs)
 
 }
 

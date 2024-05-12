@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mymovie.databinding.FragmentMovieBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,7 +45,12 @@ class MoviesFragment : Fragment() {
     }
 
     private fun setUpRecyclerview() {
-        mAdapter = MoviesAdapter()
+        mAdapter = MoviesAdapter(object :MoviesDelegate{
+            override fun onMovieItemClick(movieId: Int) {
+                findNavController().navigate(MoviesFragmentDirections.actionMovieFragmentToMovieDetailFragment(movieId))
+            }
+
+        })
         binding.rvMovies.layoutManager =
             GridLayoutManager(requireContext(), 2,GridLayoutManager.VERTICAL, false)
         binding.rvMovies.adapter = mAdapter

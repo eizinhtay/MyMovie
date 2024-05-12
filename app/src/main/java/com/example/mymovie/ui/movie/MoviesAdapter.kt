@@ -1,6 +1,5 @@
 package com.example.mymovie.ui.movie
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import com.example.mymovie.databinding.ViewHolderMovieBinding
 import com.example.mymovie.utils.IMAGE_BASE_URL
 
 
-class MoviesAdapter() :
+class MoviesAdapter(private val moviesDelegate: MoviesDelegate) :
     RecyclerView.Adapter<MovieViewHolder>() {
 
     private var itemList = mutableListOf<Movie>()
@@ -24,14 +23,13 @@ class MoviesAdapter() :
             parent,
             false
         )
-        return MovieViewHolder(mBinding)
+        return MovieViewHolder(mBinding,moviesDelegate)
     }
 
     override fun getItemCount(): Int {
         return itemList.size
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
 
         if (itemList.isNotEmpty()) {
@@ -63,26 +61,26 @@ class MoviesAdapter() :
 
 class MovieViewHolder(
     private val binding: ViewHolderMovieBinding,
+    private val moviesDelegate: MoviesDelegate,
 ) : RecyclerView.ViewHolder(binding.root) {
     private var mMovieVO: Movie? = null
 
-    init {
 
-        binding.root.setOnClickListener {
-
-        }
-    }
 
     fun bindData(movieVO: Movie) {
 
         mMovieVO = movieVO
-        //binding.helpCenterObj = itemVO
         binding.apply {
-            Glide.with(itemView.context).load("$IMAGE_BASE_URL${mMovieVO!!.posterPath}")
+            Glide.with(itemView.context).load("$IMAGE_BASE_URL${mMovieVO?.posterPath}")
                 .into(ivMovieImage)
             tvMovieName.text = movieVO.title
             tvMovieRating.text = movieVO.voteAverage?.toString()
             rbMovieRating.rating = movieVO.voteAverage?.div(2)?.toFloat() ?: 0.0f
+
+            root.setOnClickListener {
+                mMovieVO?.id?.let { id -> moviesDelegate.onMovieItemClick(id) }
+
+            }
         }
     }
 }

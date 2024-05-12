@@ -46,7 +46,7 @@
         android:numStars="5"
         android:layout_marginStart="@dimen/margin_medium"
         android:progress="100"
-        android:progressTint="@color/red" />
+        android:progressTint="@color/colorAccent" />
 
 
 </RelativeLayout>

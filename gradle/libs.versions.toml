@@ -24,6 +24,7 @@ composeVersion = "1.6.7"
 rxandroid = "3.0.2"
 rxjava = "3.1.5"
 dagger="2.51.1"
+navigation="2.5.2"
 
 [libraries]
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
@@ -69,4 +70,8 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 dagger ={ id ="com.google.dagger.hilt.android", version.ref="dagger"}
+navigationSafeArgs={ id ="androidx.navigation.safeargs.kotlin", version.ref="navigation"}
+
+
+
 
