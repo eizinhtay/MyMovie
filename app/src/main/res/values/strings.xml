@@ -5,4 +5,25 @@
     <string name="first_fragment_label">MyMovie</string>
     <string name="second_fragment_label">Second Fragment</string>
 
+    <string name="lbl_search">Search</string>
+    <string name="lbl_best_popular_fl_and_series">Best Popular Films And Series</string>
+    <string name="lbl_check_movie_nshow_times">Check Movie\nShow Times</string>
+    <string name="lbl_see_more"><u>See More</u></string>
+    <string name="lbl_showcases">ShowCases</string>
+    <string name="lbl_more_showcases"><u>More ShowCases</u></string>
+    <string name="lbl_best_actors">Best Actors</string>
+    <string name="lbl_more_actors"><u>More Actors</u></string>
+    <string name="lbl_rate_movie">Rate Movie</string>
+    <string name="lbl_play_trailer">Play Trailer</string>
+    <string name="lbl_actors">ACTORS</string>
+    <string name="lbl_creators">CREATORS</string>
+    <string name="lbl_more_creators"><u>MORE CREATORS</u></string>
+    <string name="lbl_original_title">Original Title: </string>
+    <string name="lbl_type">Type:</string>
+    <string name="lbl_premiere">Premiere:</string>
+    <string name="lbl_description">Description:</string>
+    <string name="lbl_about_film">About Film</string>
+    <string name="lbl_storyline">StoryLine</string>
+    <string name="lbl_production">Production:</string>
+
 </resources>

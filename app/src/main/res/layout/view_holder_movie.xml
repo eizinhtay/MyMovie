@@ -8,12 +8,14 @@
     android:background="@drawable/gradient_movie"
     android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivMovieImage"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/height_180dp"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/ic_launcher_foreground" />
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:clickable="false"
+        android:elevation="8dp"
+        app:shapeAppearanceOverlay="@style/rounded_corner" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMovieName"

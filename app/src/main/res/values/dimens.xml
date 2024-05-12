@@ -39,5 +39,5 @@
     <dimen name="height_showcase">200dp</dimen>
     <dimen name="width_actor">150dp</dimen>
     <dimen name="height_actor">180dp</dimen>
-    <dimen name="height_movie_detail_toolbar">300dp</dimen>
+    <dimen name="height_movie_detail_toolbar">400dp</dimen>
 </resources>

@@ -12,7 +12,7 @@ data class MovieDetails(
     @SerializedName("budget")
     val budget: Int,
     @SerializedName("genres")
-    val genres: List<Genre>,
+    val genres: List<Genre>?=null,
     @SerializedName("homepage")
     val homepage: String,
     @SerializedName("id")
@@ -48,5 +48,8 @@ data class MovieDetails(
     @SerializedName("vote_average")
     val voteAverage: Double,
     @SerializedName("vote_count")
-    val voteCount: Int
-)
+    val voteCount: Int,
+    @SerializedName("production_countries")
+    val productionCountries: List<ProductionCountriesVO>?,
+
+    )

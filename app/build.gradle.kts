@@ -55,11 +55,11 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     //Gson
-    implementation (libs.gson)
+    implementation(libs.gson)
 
     //retrofit
     implementation(libs.okhttp)
-    implementation (libs.retrofit)
+    implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.converter.scalars)
     implementation(libs.logging.interceptor)
@@ -71,26 +71,19 @@ dependencies {
 
     //dependencyInjection
     implementation(libs.hilt.android)
-    kapt (libs.hilt.android.compiler)
+    kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.work)
-    kapt  (libs.androidx.hilt.compiler)
+    kapt(libs.androidx.hilt.compiler)
 
     //room
-    implementation (libs.androidx.room.runtime)
-    implementation (libs.androidx.room.ktx)
-    kapt (libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 
 
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.constraintlayout.compose)
-    implementation (libs.glide)
-
-
-
-
-
-
-
+    implementation(libs.glide)
 
 
 }
