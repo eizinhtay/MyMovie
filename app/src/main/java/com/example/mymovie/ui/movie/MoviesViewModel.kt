@@ -1,6 +1,5 @@
 package com.example.mymovie.ui.movie
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,6 +33,7 @@ class MoviesViewModel @Inject constructor(private val repository: MoviesReposito
             PagingData<Movie>> = _movieLocalPagingList
 
 
+
     fun getMovies(
     ) {
         repository.getMovies(
@@ -42,19 +42,16 @@ class MoviesViewModel @Inject constructor(private val repository: MoviesReposito
             onSuccess = {
                 _movieList.value = it.movies
                 repository.addMovies(it.movies)
-                Log.d("MoviesViewModel", "size::${it.movies.size}")
-
-                Log.d("MoviesViewModel", "response::${repository.getMoviesFromDb().size}")
-            },
+           },
             onFailure = {
 
             }
         )
     }
 
-    fun getLocalMovies(): List<Movie> {
+    /*fun getLocalMovies(): List<Movie> {
         return repository.getMoviesFromDb()
-    }
+    }*/
 
     /*fun filterLocalMovies(query: String?): MutableList<Movie> {
         val filteredList = mutableListOf<Movie>()
@@ -107,16 +104,20 @@ class MoviesViewModel @Inject constructor(private val repository: MoviesReposito
 
     fun getAllMovies(query: String) {
         viewModelScope.launch {
+
             repository
                 .getAllMovies(query=query)
                 .cachedIn(viewModelScope)
                 .collect {
                     _moviePagingList.value = it
+
                 }
         }
+
     }
 
     fun searchMovies(query: String) {
+
         viewModelScope.launch {
             repository
                 .searchMovies(query=query)

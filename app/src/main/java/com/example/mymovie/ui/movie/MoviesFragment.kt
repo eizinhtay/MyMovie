@@ -1,17 +1,18 @@
 package com.example.mymovie.ui.movie
 
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.mymovie.databinding.FragmentMovieBinding
-import com.example.mymovie.utils.NetworkStateLiveData
+import com.example.mymovie.utils.ConnectionLiveData
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,7 +32,12 @@ class MoviesFragment : Fragment() {
 
     private val moviesViewModel:MoviesViewModel by viewModels()
     private lateinit var mAdapter: MovieRecyclerAdapter
-    private lateinit var networkStateLiveData: NetworkStateLiveData
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,7 +53,6 @@ class MoviesFragment : Fragment() {
     }
 
     private fun setUpNetwork() {
-        networkStateLiveData = NetworkStateLiveData(requireContext())
 
     }
 
@@ -83,7 +88,7 @@ class MoviesFragment : Fragment() {
 
 
     private fun filterMovies(newText: String) {
-        networkStateLiveData.observe(viewLifecycleOwner) { isConnected ->
+        ConnectionLiveData(requireContext()).observe(viewLifecycleOwner) { isConnected ->
             if (isConnected) {
                 // Network is available
                 moviesViewModel.searchMovies(newText)
@@ -134,10 +139,12 @@ class MoviesFragment : Fragment() {
 
 
 
+
     }
 
     private fun loadMovies() {
-        networkStateLiveData.observe(viewLifecycleOwner) { isConnected ->
+        ConnectionLiveData(requireContext()).observe(viewLifecycleOwner, Observer {isConnected ->
+
             if (isConnected) {
                 // Network is available
                 moviesViewModel.getAllMovies(query="")
@@ -159,15 +166,27 @@ class MoviesFragment : Fragment() {
 
                     }
                 }
-                Log.d("MoviesViewModel","${moviesViewModel.getLocalMovies().size}")
 
 
             }
-        }
+        })
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+
+    }
+
+    override fun onResume() {
+        loadMovies()
+        super.onResume()
     }
 }

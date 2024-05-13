@@ -83,6 +83,13 @@ class MovieVideoFragment : Fragment() {
         })
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.youtubePlayerView.release()
+
+        _binding = null
+    }
+
 
 
 }

@@ -11,9 +11,10 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/ivMovieImage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:background="@null"
         android:clickable="false"
+        android:scaleType="centerCrop"
         android:elevation="8dp"
         app:shapeAppearanceOverlay="@style/rounded_corner" />
 
